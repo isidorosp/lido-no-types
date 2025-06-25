@@ -1,0 +1,316 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lido NO Types Configuration",
+  "description": "Configuration schema for Lido Community Staking Module-based Node Operator types",
+  "type": "object",
+  "properties": {
+    "modules": {
+      "type": "array",
+      "description": "Array of staking modules and their parameters",
+      "items": {
+        "type": "object",
+        "properties": {
+          "module_id": {
+            "type": "integer",
+            "description": "Unique identifier for the module"
+          },
+          "module_name": {
+            "type": "string",
+            "description": "Human-readable name of the module"
+          },
+          "module_slug": {
+            "type": "string",
+            "description": "Short identifier/slug for the module"
+          },
+          "module_params": {
+            "type": "object",
+            "description": "Parameters specific to the module",
+            "properties": {
+              "base_fee": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "description": "Numeric value of the base fee"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "description": "Unit of measurement for the base fee"
+                  }
+                },
+                "required": ["value", "unit"],
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "module_id",
+          "module_name",
+          "module_slug",
+          "module_params"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "no_types": {
+      "type": "array",
+      "description": "Array of Node Operator types",
+      "items": {
+        "type": "object",
+        "properties": {
+          "no_type": {
+            "type": "string",
+            "description": "Node Operator Type name"
+          },
+          "valid_modules": {
+            "type": "array",
+            "description": "Array of module IDs that this NO type applies to",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "no_type_params": {
+            "type": "object",
+            "description": "Parameters specific to this Node Operator type",
+            "properties": {
+              "performance_params": {
+                "type": "object",
+                "description": "Performance-related parameters",
+                "properties": {
+                  "performance_coefficients": {
+                    "type": "array",
+                    "description": "Array of coefficient pairs for performance calculation, in [numerator, denominator] configuration.",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  },
+                  "performance_leeway_curve": {
+                    "type": "array",
+                    "description": "Array of curve points, expressed as [range starting index (integer), basis points (integer)]",
+                    "minItems": 1,
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  },
+                  "strikes_lifetime": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "integer",
+                        "description": "Numeric value for strikes lifetime"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for strikes lifetime"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  },
+                  "strikes_threshold": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "integer",
+                        "description": "Numeric value for strikes threshold"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for strikes threshold"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  },
+                  "bad_performance_penalty": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                        "description": "Numeric value for bad performance penalty"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for bad performance penalty"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "performance_coefficients",
+                  "performance_leeway_curve",
+                  "strikes_lifetime",
+                  "strikes_threshold",
+                  "bad_performance_penalty"
+                ],
+                "additionalProperties": false
+              },
+              "validator_params": {
+                "type": "object",
+                "description": "Validator-related parameters",
+                "properties": {
+                  "bond_curve": {
+                    "type": "array",
+                    "description": "Array of bond curve points expressed as [range starting index (number), amount of Ether (number)]",
+                    "minItems": 1,
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  },
+                  "rewards_curve": {
+                    "type": "array",
+                    "description": "Array of rewards curve points expressed as [range starting index (integer), rewards share (in basis points in relation to the module base fee)]",
+                    "minItems": 1,
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  },
+                  "key_removal_charge": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                        "description": "Numeric value for key removal charge"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for key removal charge"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "bond_curve",
+                  "rewards_curve",
+                  "key_removal_charge"
+                ],
+                "additionalProperties": false
+              },
+              "miscellaneous_params": {
+                "type": "object",
+                "description": "Miscellaneous parameters",
+                "properties": {
+                  "priority_queue_max_deposits": {
+                    "type": "integer",
+                    "description": "Maximum deposits allowed in priority queue (number of 32-ETH validator keys). Note that for queue == 5 a priority_queue_max_deposits value of 0 means unlimited (since it is the default queue)."
+                  },
+                  "queue_priority": {
+                    "type": "integer",
+                    "description": "Priority level in the queue (queue 5 is the default / lowest priority)"
+                  },
+                  "max_withdrawal_request_fee": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                        "description": "Numeric value for maximum withdrawal request fee"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for maximum withdrawal request fee"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  },
+                  "exit_delay_penalty": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                        "description": "Numeric value for exit delay penalty"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for exit delay penalty"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  },
+                  "allowed_exit_delay": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                        "description": "Numeric value for allowed exit delay"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for allowed exit delay"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  },
+                  "el_rewards_stealing_additional_fine": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                        "description": "Numeric value for EL rewards stealing additional fine"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for EL rewards stealing additional fine"
+                      }
+                    },
+                    "required": ["value", "unit"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "priority_queue_max_deposits",
+                  "queue_priority",
+                  "max_withdrawal_request_fee",
+                  "exit_delay_penalty",
+                  "allowed_exit_delay",
+                  "el_rewards_stealing_additional_fine"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "performance_params",
+              "validator_params",
+              "miscellaneous_params"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": ["no_type", "valid_modules", "no_type_params"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["modules", "no_types"],
+  "additionalProperties": false
+}
