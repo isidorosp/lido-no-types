@@ -4,6 +4,10 @@
   "description": "Configuration schema for Lido Community Staking Module-based Node Operator types",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema version"
+    },
     "modules": {
       "type": "array",
       "description": "Array of staking modules and their parameters",

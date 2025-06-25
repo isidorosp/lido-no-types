@@ -1,0 +1,1 @@
+A JSON schema and proposed content and values for Node Operator types configuration of Lido CSM v2, based on information provided on the Lido community forums: https://research.lido.fi/t/community-staking-module/5917/137 (see the thread for more info)
